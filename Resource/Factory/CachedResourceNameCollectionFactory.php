@@ -50,13 +50,15 @@ final class CachedResourceNameCollectionFactory implements ResourceNameCollectio
 
         $resourceNameCollection = $this->decorated->create();
 
-        if (isset($cacheItem)) {
-            try {
-                $cacheItem->set($resourceNameCollection);
-                $this->cacheItemPool->save($cacheItem);
-            } catch (CacheException $e) {
-                // do nothing
-            }
+        if (!isset($cacheItem)) {
+            return $resourceNameCollection;
+        }
+
+        try {
+            $cacheItem->set($resourceNameCollection);
+            $this->cacheItemPool->save($cacheItem);
+        } catch (CacheException $e) {
+            // do nothing
         }
 
         return $resourceNameCollection;
