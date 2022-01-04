@@ -11,10 +11,8 @@
 
 declare(strict_types=1);
 
-namespace ApiPlatform\Metadata\Property;
+namespace ApiPlatform\Metadata\Property\Factory;
 
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\PropertyMetadata;
 use ApiPlatform\Exception\PropertyNotFoundException;
 use ApiPlatform\Metadata\ApiProperty;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
@@ -38,25 +36,20 @@ final class PropertyInfoPropertyMetadataFactory implements PropertyMetadataFacto
     /**
      * {@inheritdoc}
      */
-    public function create(string $resourceClass, string $property, array $options = [])
+    public function create(string $resourceClass, string $property, array $options = []): ApiProperty
     {
         if (null === $this->decorated) {
             $propertyMetadata = new ApiProperty();
         } else {
             try {
-                /** @var ApiProperty|PropertyMetadata */
                 $propertyMetadata = $this->decorated->create($resourceClass, $property, $options);
             } catch (PropertyNotFoundException $propertyNotFoundException) {
                 $propertyMetadata = new ApiProperty();
             }
         }
 
-        if ($propertyMetadata instanceof ApiProperty) {
-            if (!$propertyMetadata->getBuiltinTypes()) {
-                $propertyMetadata = $propertyMetadata->withBuiltinTypes($this->propertyInfo->getTypes($resourceClass, $property, $options) ?? []);
-            }
-        } elseif (null === $propertyMetadata->getType()) {
-            $propertyMetadata = $propertyMetadata->withType($this->propertyInfo->getTypes($resourceClass, $property, $options)[0] ?? null);
+        if (!$propertyMetadata->getBuiltinTypes()) {
+            $propertyMetadata = $propertyMetadata->withBuiltinTypes($this->propertyInfo->getTypes($resourceClass, $property, $options) ?? []);
         }
 
         if (null === $propertyMetadata->getDescription() && null !== $description = $this->propertyInfo->getShortDescription($resourceClass, $property, $options)) {

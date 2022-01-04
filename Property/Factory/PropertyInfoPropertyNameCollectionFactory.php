@@ -11,10 +11,9 @@
 
 declare(strict_types=1);
 
-namespace ApiPlatform\Metadata\Property;
+namespace ApiPlatform\Metadata\Property\Factory;
 
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\PropertyNameCollection;
+use ApiPlatform\Metadata\Property\PropertyNameCollection;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
 
 /**
