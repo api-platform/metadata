@@ -11,42 +11,22 @@
 
 declare(strict_types=1);
 
-namespace ApiPlatform\Metadata;
+namespace ApiPlatform\Metadata\GraphQl;
+
+use ApiPlatform\Metadata\DeleteOperationInterface;
 
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
-final class GetCollection extends HttpOperation implements CollectionOperationInterface
+class DeleteMutation extends Operation implements DeleteOperationInterface
 {
     /**
      * {@inheritdoc}
      */
     public function __construct(
-        ?string $uriTemplate = null,
-        ?array $types = null,
-        $formats = null,
-        $inputFormats = null,
-        $outputFormats = null,
-        $uriVariables = null,
-        ?string $routePrefix = null,
-        ?string $routeName = null,
-        ?array $defaults = null,
-        ?array $requirements = null,
-        ?array $options = null,
-        ?bool $stateless = null,
-        ?string $sunset = null,
-        ?string $acceptPatch = null,
-        $status = null,
-        ?string $host = null,
-        ?array $schemes = null,
-        ?string $condition = null,
-        ?string $controller = null,
-        ?array $cacheHeaders = null,
+        ?string $resolver = null,
+        ?array $args = null,
+        ?array $links = null,
 
-        ?array $hydraContext = null,
-        ?array $openapiContext = null,
-        ?array $exceptionToStatus = null,
-
-        ?bool $queryParameterValidationEnabled = null,
-
+        // abstract operation arguments
         ?string $shortName = null,
         ?string $class = null,
         ?bool $paginationEnabled = null,
@@ -59,7 +39,7 @@ final class GetCollection extends HttpOperation implements CollectionOperationIn
         ?bool $paginationClientPartial = null,
         ?bool $paginationFetchJoinCollection = null,
         ?bool $paginationUseOutputWalkers = null,
-        ?array $paginationViaCursor = null,
+        ?bool $paginationViaCursor = null,
         ?array $order = null,
         ?string $description = null,
         ?array $normalizationContext = null,
@@ -91,7 +71,7 @@ final class GetCollection extends HttpOperation implements CollectionOperationIn
         ?string $provider = null,
         ?string $processor = null,
         array $extraProperties = []
-    ) {
-        parent::__construct(self::METHOD_GET, ...\func_get_args());
+) {
+        parent::__construct(...\func_get_args());
     }
 }
