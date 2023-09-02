@@ -17,7 +17,7 @@ use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use ApiPlatform\State\OptionsInterface;
 
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
-final class Put extends HttpOperation
+final class Error extends HttpOperation
 {
     public function __construct(
         string $uriTemplate = null,
@@ -93,10 +93,8 @@ final class Put extends HttpOperation
         $processor = null,
         OptionsInterface $stateOptions = null,
         array $extraProperties = [],
-        private ?bool $allowCreate = null,
     ) {
         parent::__construct(
-            method: 'PUT',
             uriTemplate: $uriTemplate,
             types: $types,
             formats: $formats,
@@ -168,17 +166,7 @@ final class Put extends HttpOperation
             provider: $provider,
             processor: $processor,
             stateOptions: $stateOptions,
-            extraProperties: $extraProperties
+            extraProperties: $extraProperties,
         );
-    }
-
-    public function withAllowCreate(bool $allowCreate): void
-    {
-        $this->allowCreate = $allowCreate;
-    }
-
-    public function getAllowCreate(): ?bool
-    {
-        return $this->allowCreate;
     }
 }
