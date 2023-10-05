@@ -55,7 +55,10 @@
   "autoload": {
     "psr-4": {
       "ApiPlatform\\Metadata\\": ""
-    }
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
   },
   "config": {
     "preferred-install": {
