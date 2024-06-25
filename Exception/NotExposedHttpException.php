@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace ApiPlatform\Metadata\Exception;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 /**
- * Runtime exception.
- *
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+class NotExposedHttpException extends NotFoundHttpException
 {
 }
