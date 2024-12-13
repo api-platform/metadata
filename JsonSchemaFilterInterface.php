@@ -11,13 +11,12 @@
 
 declare(strict_types=1);
 
-namespace ApiPlatform\Metadata\Exception;
+namespace ApiPlatform\Metadata;
 
-/**
- * Runtime exception.
- *
- * @author Kévin Dunglas <dunglas@gmail.com>
- */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+interface JsonSchemaFilterInterface
 {
+    /**
+     * @return array<string, mixed>
+     */
+    public function getSchema(Parameter $parameter): array;
 }
