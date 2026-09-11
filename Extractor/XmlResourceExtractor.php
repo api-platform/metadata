@@ -93,6 +93,7 @@ final class XmlResourceExtractor extends AbstractResourceExtractor
             'schemes' => $this->buildArrayValue($resource, 'scheme'),
             'cacheHeaders' => $this->buildCacheHeaders($resource),
             'hydraContext' => isset($resource->hydraContext->values) ? $this->buildValues($resource->hydraContext->values) : null,
+            'jsonldContext' => isset($resource->jsonldContext->values) ? $this->buildValues($resource->jsonldContext->values) : null,
             'openapi' => $this->buildOpenapi($resource),
             'paginationViaCursor' => $this->buildPaginationViaCursor($resource),
             'exceptionToStatus' => $this->buildExceptionToStatus($resource),
@@ -148,6 +149,7 @@ final class XmlResourceExtractor extends AbstractResourceExtractor
             'write' => $this->phpize($resource, 'write', 'bool'),
             'jsonStream' => $this->phpize($resource, 'jsonStream', 'bool'),
             'map' => $this->phpize($resource, 'map', 'bool'),
+            'throwOnNotFound' => $this->phpize($resource, 'throwOnNotFound', 'bool'),
         ];
     }
 

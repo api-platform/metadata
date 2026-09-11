@@ -44,6 +44,7 @@ final class Put extends HttpOperation
         ?array $cacheHeaders = null,
         ?array $paginationViaCursor = null,
         ?array $hydraContext = null,
+        ?array $jsonldContext = null,
         bool|OpenApiOperation|Webhook|null $openapi = null,
         ?array $exceptionToStatus = null,
         ?bool $queryParameterValidationEnabled = null,
@@ -99,6 +100,7 @@ final class Put extends HttpOperation
         ?string $policy = null,
         array|string|null $middleware = null,
         ?bool $jsonStream = null,
+        ?bool $throwOnNotFound = null,
         array $extraProperties = [],
         ?bool $strictQueryParameterValidation = null,
         ?bool $hideHydraOperation = null,
@@ -130,6 +132,7 @@ final class Put extends HttpOperation
             cacheHeaders: $cacheHeaders,
             paginationViaCursor: $paginationViaCursor,
             hydraContext: $hydraContext,
+            jsonldContext: $jsonldContext,
             openapi: $openapi,
             exceptionToStatus: $exceptionToStatus,
             queryParameterValidationEnabled: $queryParameterValidationEnabled,
@@ -186,6 +189,7 @@ final class Put extends HttpOperation
             strictQueryParameterValidation: $strictQueryParameterValidation,
             hideHydraOperation: $hideHydraOperation,
             jsonStream: $jsonStream,
+            throwOnNotFound: $throwOnNotFound,
             extraProperties: $extraProperties,
             map: $map
         );

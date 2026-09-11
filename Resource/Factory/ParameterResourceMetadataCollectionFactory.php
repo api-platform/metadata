@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ApiPlatform\Metadata\Resource\Factory;
 
+use ApiPlatform\Doctrine\Common\Filter\ManagerRegistryAwareInterface;
 use ApiPlatform\Doctrine\Common\Filter\PropertyAwareFilterInterface;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Exception\RuntimeException;
@@ -212,13 +213,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
         }
 
         if (($filter = $this->getFilterInstance($parameter->getFilter())) && $filter instanceof PropertyAwareFilterInterface) {
-            if (!method_exists($filter, 'getProperties')) { // todo 5.x remove this check
-                trigger_deprecation('api-platform/core', 'In API Platform 5.0 "%s" will implement a method named "getProperties"', PropertyAwareFilterInterface::class);
-                $refl = new \ReflectionClass($filter);
-                $filterProperties = $refl->hasProperty('properties') ? $refl->getProperty('properties')->getValue($filter) : [];
-            } else {
-                $filterProperties = array_keys($filter->getProperties() ?? []);
-            }
+            $filterProperties = array_keys($filter->getProperties() ?? []);
 
             foreach ($filterProperties as $prop) {
                 if (!\in_array($prop, $propertyNames, true)) {
@@ -423,7 +418,13 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
             try {
                 return $this->getLegacyFilterMetadata($parameter, $operation, $filter);
             } catch (RuntimeException $exception) {
-                $this->logger?->alert($exception->getMessage(), ['exception' => $exception]);
+                // An inline filter instance never gets a ManagerRegistry, unlike one resolved as a service
+                // through the filter locator: failing to describe it is expected, not an alert-worthy event.
+                if ($filter instanceof ManagerRegistryAwareInterface && !$filter->hasManagerRegistry()) {
+                    $this->logger?->debug($exception->getMessage(), ['exception' => $exception]);
+                } else {
+                    $this->logger?->alert($exception->getMessage(), ['exception' => $exception]);
+                }
 
                 return $parameter;
             }

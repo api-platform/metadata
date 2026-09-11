@@ -66,6 +66,7 @@ final class XmlResourceAdapter implements ResourceAdapterInterface
         'stateOptions',
         'collectDenormalizationErrors',
         'jsonStream',
+        'throwOnNotFound',
         'links',
         'parameters',
     ];
@@ -228,6 +229,11 @@ XML_WRAP
     private function buildHydraContext(\SimpleXMLElement $resource, array $values): void
     {
         $this->buildValues($resource->addChild('hydraContext'), $values);
+    }
+
+    private function buildJsonldContext(\SimpleXMLElement $resource, array $values): void
+    {
+        $this->buildValues($resource->addChild('jsonldContext'), $values);
     }
 
     private function buildOpenapi(\SimpleXMLElement $resource, array $values): void

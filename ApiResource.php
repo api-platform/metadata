@@ -326,6 +326,14 @@ class ApiResource extends Metadata
         protected ?array $denormalizationContext = null,
         protected ?bool $collectDenormalizationErrors = null,
         protected ?array $hydraContext = null,
+        /**
+         * Extra entries to merge into the JSON-LD `@context` for this resource (e.g. namespace prefix declarations).
+         *
+         * Example: `jsonldContext: ['dct' => 'http://purl.org/dc/terms/']`
+         *
+         * @see https://api-platform.com/docs/core/extending-jsonld-context/
+         */
+        protected ?array $jsonldContext = null,
         protected bool|OpenApiOperation|null $openapi = null,
         /**
          * The `validationContext` option configures the context of validation for the current ApiResource.
@@ -970,6 +978,7 @@ class ApiResource extends Metadata
         protected ?bool $strictQueryParameterValidation = null,
         protected ?bool $hideHydraOperation = null,
         protected ?bool $jsonStream = null,
+        protected ?bool $throwOnNotFound = null,
         protected array $extraProperties = [],
         ?bool $map = null,
         protected ?array $mcp = null,
@@ -1018,6 +1027,7 @@ class ApiResource extends Metadata
             strictQueryParameterValidation: $strictQueryParameterValidation,
             hideHydraOperation: $hideHydraOperation,
             jsonStream: $jsonStream,
+            throwOnNotFound: $throwOnNotFound,
             extraProperties: $extraProperties,
             map: $map,
         );
@@ -1369,6 +1379,19 @@ class ApiResource extends Metadata
     {
         $self = clone $this;
         $self->hydraContext = $hydraContext;
+
+        return $self;
+    }
+
+    public function getJsonldContext(): ?array
+    {
+        return $this->jsonldContext;
+    }
+
+    public function withJsonldContext(array $jsonldContext): static
+    {
+        $self = clone $this;
+        $self->jsonldContext = $jsonldContext;
 
         return $self;
     }
